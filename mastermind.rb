@@ -1,6 +1,12 @@
 class Game
   @@colors = ['red', 'blue', 'green', 'purple', 'orange', 'yellow']
+
+  def self.colors
+    @@colors
+  end
+
   attr_reader :code
+
   def initialize()
     @player = Player.new(self)
     @code = generate_code(@code)
@@ -15,10 +21,16 @@ class Game
     p code
   end
 
+  def check_code(guesses)
+    p guesses
+    p self.code
+  end
+
   public
 
   def play
-    @player.guess
+    guesses = @player.guess
+    check_code(guesses)
   end
 
 end
@@ -35,13 +47,15 @@ class Player
     while guesses.length < 4 do
       puts "Guess color #{count}!"
       color = gets.chomp
-      if @game.code.include? color.downcase 
+      if Game::colors.include? color.downcase 
         guesses.append(color)
         count += 1
       else
         puts "Not a valid color!"
       end
+      p @game.code
     end
+    return guesses
   end
 end
 
